@@ -1,16 +1,13 @@
 input {
   unix {
-    path => "/tmp/sock"
+    path => "/tmp/logstash.sock"
     codec => "json_lines"
   }
 }
 
-filter {
-  unique {
-    fields => ["id", "post_counter_id" ]
-  }
-}
-
 output {
-  elasticsearch { host => localhost }
+  elasticsearch {
+    host => localhost
+    cluster => InstaGeo
+  }
 }
