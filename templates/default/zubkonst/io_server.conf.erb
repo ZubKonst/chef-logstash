@@ -1,7 +1,18 @@
 input {
-  unix {
-    path => "/tmp/logstash.sock"
-    codec => "json_lines"
+  tcp {
+    host => localhost
+    port => 5229
+    codec => json_lines
+  }
+}
+
+filter {
+  unique {
+    fields => [ "post_instagram_id", "post_created_time" ]
+  }
+  date {
+    match => [ "post_created_time", "UNIX" ]
+    target => "@timestamp"
   }
 }
 
